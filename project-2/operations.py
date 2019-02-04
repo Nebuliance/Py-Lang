@@ -82,7 +82,10 @@ def reduceOperation(e):
   if type(e) is NotExpr:
     pass
 
-  if type(e) isinstance(e, Expr):
+  if type(e) is AndExpr:
+    pass
+
+  if type(e) is OrExpr:
     pass
 
   assert False
