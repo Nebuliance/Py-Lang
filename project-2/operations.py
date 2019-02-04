@@ -15,10 +15,32 @@ def size(e):
   assert False
 
 def height(e):
-  pass
+  assert isinstance(e, Expr)
+
+  if type(e) is BoolExpr:
+    pass
+
+  if type(e) is NotExpr:
+    pass
+
+  if type(e) isinstance(e, Expr):
+    pass
+
+  assert False
 
 def same(e):
-  pass
+  assert isinstance(e, Expr)
+
+  if type(e) is BoolExpr:
+    pass
+
+  if type(e) is NotExpr:
+    pass
+
+  if type(e) isinstance(e, Expr):
+    pass
+
+  assert False
   
 def value(e):
   assert isinstance(e, Expr)
@@ -38,9 +60,31 @@ def value(e):
   assert False
 
 def step(e):
-  pass
+  assert isinstance(e, Expr)
+
+  if type(e) is BoolExpr:
+    pass
+
+  if type(e) is NotExpr:
+    pass
+
+  if type(e) isinstance(e, Expr):
+    pass
+
+  assert False
 
 def reduceOperation(e):
-  pass
+  assert isinstance(e, Expr)
+
+  if type(e) is BoolExpr:
+    pass
+
+  if type(e) is NotExpr:
+    pass
+
+  if type(e) isinstance(e, Expr):
+    pass
+
+  assert False
 
 return 0
