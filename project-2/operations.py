@@ -1,4 +1,4 @@
-for lang import *
+from lang import *
 
 def size(e):
   assert isinstance(e, Expr)
@@ -37,11 +37,8 @@ def same(e):
   if type(e) is NotExpr:
     return not same(e.expr)
 
-  if type(e) is AndExpr:
-    pass
-
-  if type(e) is OrExpr:
-    pass
+  if type(e) isinstance(e, Expr):
+    return True if (e.lhs == e.rhs) else False
 
   assert False
   
@@ -66,16 +63,13 @@ def step(e):
   assert isinstance(e, Expr)
 
   if type(e) is BoolExpr:
-    return e.step
+    return 0
 
   if type(e) is NotExpr:
-    return not step(e.expr)
+    return 1
 
-  if type(e) is AndExpr:
-    pass
-
-  if type(e) is OrExpr:
-    pass
+  if type(e) isinstance(e, Expr):
+    return 1
 
   assert False
 
@@ -95,5 +89,3 @@ def reduceOperation(e):
     pass
 
   assert False
-
-return 0
