@@ -1,4 +1,4 @@
-from lang import *
+import lang
 
 """compute size of expression"""
 def size(e):
