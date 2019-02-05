@@ -10,7 +10,7 @@ def size(e):
   if type(e) is NotExpr:
     return 1 + size(e.expr)
 
-  if type(e) isinstance(e, BinaryExpr):
+  if type(e) is BinaryExpr:
     return 1 + size(e.lhs) + size(e.rhs)
 
   assert False
@@ -25,8 +25,8 @@ def height(e):
   if type(e) is NotExpr:
     return 1 + height(e.expr)
 
-  if type(e) isinstance(e, BinaryExpr): # 1 + max of lhs + max of rhs
-    pass 
+  if type(e) is BinaryExpr:
+    return 1 + (height(e.lhs) and height(e.rhs))
 
   assert False
 
@@ -44,8 +44,8 @@ def same(e1, e2):
   if type(e1) is NotExpr:
     return same(e1.expr, e2.expr)
 
-  if type(e1) isinstance(e, BinaryExpr):
-    return same(e1.lhs, e2,lhs) and same(e1.rhs, e2.rhs)
+  if type(e1) is BinaryExpr:
+    return same(e1.lhs, e2.lhs) and same(e1.rhs, e2.rhs)
 
   assert False
 

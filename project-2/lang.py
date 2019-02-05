@@ -24,7 +24,8 @@ class NotExpr(Expr):
 class BinaryExpr(Expr):
   """Represents strings of the form 'e1 @ e2'."""
   def __init__(self, e1, e2):
-    
+    assert isinstance(e1, Expr)
+    assert isinstance(e2, Expr)
     self.lhs = e1
     self.rhs = e2
 
