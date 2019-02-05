@@ -1,0 +1,9 @@
+e :: bool stuff
+     x       variable
+     λx.e1   abstraction
+     e1 e1   application
+
+land = λx.λy.x and y
+implies = λp.λg.((not p) or g)
+
+python sort(R, lambda x, y: x < y) => λx.λy.x < y

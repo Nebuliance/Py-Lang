@@ -10,7 +10,7 @@ def size(e):
   if type(e) is NotExpr:
     return 1 + size(e.expr)
 
-  if type(e) isinstance(e, Expr):
+  if type(e) isinstance(e, BinaryExpr):
     return 1 + size(e.lhs) + size(e.rhs)
 
   assert False
@@ -20,28 +20,32 @@ def height(e):
   assert isinstance(e, Expr)
 
   if type(e) is BoolExpr:
-    return 1
+    return 0
 
   if type(e) is NotExpr:
     return 1 + height(e.expr)
 
-  if type(e) isinstance(e, Expr):
-    return 1 + height(e.lhs) + height(e.rhs) 
+  if type(e) isinstance(e, BinaryExpr): # 1 + max of lhs + max of rhs
+    pass 
 
   assert False
 
 """true if two expressions are identical"""
-def same(e):
-  assert isinstance(e, Expr)
+def same(e1, e2):
+  assert isinstance(e1, Expr)
+  assert isinstance(e2, Expr)
 
-  if type(e) is BoolExpr:
+  if type(e1) is not type(e2):
     return False
 
-  if type(e) is NotExpr:
-    return False
+  if type(e1) is BoolExpr:
+    return e1.value == e2.value
 
-  if type(e) isinstance(e, Expr):
-    return True if (same(e.lhs) == same(e.rhs)) else False
+  if type(e1) is NotExpr:
+    return same(e1.expr, e2.expr)
+
+  if type(e1) isinstance(e, BinaryExpr):
+    return same(e1.lhs, e2,lhs) and same(e1.rhs, e2.rhs)
 
   assert False
 
@@ -63,36 +67,64 @@ def value(e):
 
   assert False
 
-"""return expression represeting single step of evaluation"""
-def step(e):
-  assert isinstance(e, Expr)
+def isValue(e):
+  return type(e) is BoolExpr
 
-  if type(e) is BoolExpr:
-    pass
+def isReducible(e):
+  return not isValue(e)
 
-  if type(e) is NotExpr:
-    pass
+def notStep(e):
+  if isValue(e.expr):
+    return BoolExpr(not e.expr.value)
 
-  if type(e) isinstance(e, Expr):
-    pass
+  return NotExpr(step(e.expr))
 
   assert False
 
+def andStep(e):
+  if isValue(e.lhs) and isValue(e.rhs):
+    return BoolExpr(e.lhs.value and e.rhs.value)
+
+  if isReducible(e.lhs):
+    return AndExpr(step(e.lhs), e.rhs)
+
+  if isReducible(e.rhs):
+    return AndExpr(e.lhs, step(e.rhs))
+
+  assert False
+
+def orStep(e):
+  if isValue(e.lhs) and isValue(e.rhs):
+    return BoolExpr(e.lhs.value or e.rhs.value)
+
+  if isReducible(e.lhs):
+    return OrExpr(step(e.lhs), e.rhs)
+
+  if isReducible(e.rhs):
+    return OrExpr(e.lhs, step(e.rhs))
+
+  assert False
+
+"""return expression representing single step of evaluation"""
+def step(e):
+  assert isReducible(e)
+
+  if type(e) is NotExpr:
+    return notStep(e)
+
+  if type(e) is AndExpr:
+    return andStep(e)
+
+  if type(e) is OrExpr:
+    return orStep(e)
+
+  assert False
 
 """calls repeatedly until expression is non-reducible"""
 def reduceExpr(e):
-  assert isinstance(e, Expr)
+  while isReducible(e):
+    e = step(e)
 
-  if type(e) is BoolExpr:
-    return e.reduceExpr
-
-  if type(e) is NotExpr:
-    return not reduceExpr(e.expr)
-
-  if type(e) is AndExpr:
-    return True if (reduceExpr(e.lhs) == True and reduceExpr(e.rhs) == True) else False
-
-  if type(e) is OrExpr:
-    eturn True if (reduceExpr(e.lhs) == True or reduceExpr(e.rhs) == True) else False
+  return e
 
   assert False
