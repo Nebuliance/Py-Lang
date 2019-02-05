@@ -1,5 +1,6 @@
 from lang import *
 
+"""compute size of expression"""
 def size(e):
   assert isinstance(e, Expr)
 
@@ -14,6 +15,7 @@ def size(e):
 
   assert False
 
+"""compute height of expression"""
 def height(e):
   assert isinstance(e, Expr)
 
@@ -21,27 +23,29 @@ def height(e):
     return 1
 
   if type(e) is NotExpr:
-    return 1 + height(e.height)
+    return 1 + height(e.expr)
 
   if type(e) isinstance(e, Expr):
     return 1 + height(e.lhs) + height(e.rhs) 
 
   assert False
 
+"""true if two expressions are identical"""
 def same(e):
   assert isinstance(e, Expr)
 
   if type(e) is BoolExpr:
-    return e.same
+    return False
 
   if type(e) is NotExpr:
-    return not same(e.expr)
+    return False
 
   if type(e) isinstance(e, Expr):
-    return True if (e.lhs == e.rhs) else False
+    return True if (same(e.lhs) == same(e.rhs)) else False
 
   assert False
-  
+
+"""compute value of expression"""
 def value(e):
   assert isinstance(e, Expr)
 
@@ -59,33 +63,36 @@ def value(e):
 
   assert False
 
+"""return expression represeting single step of evaluation"""
 def step(e):
   assert isinstance(e, Expr)
 
   if type(e) is BoolExpr:
-    return 0
+    pass
 
   if type(e) is NotExpr:
-    return 1
+    pass
 
   if type(e) isinstance(e, Expr):
-    return 1
+    pass
 
   assert False
 
-def reduceOperation(e):
+
+"""calls repeatedly until expression is non-reducible"""
+def reduceExpr(e):
   assert isinstance(e, Expr)
 
   if type(e) is BoolExpr:
-    return e.reduceOperation
+    return e.reduceExpr
 
   if type(e) is NotExpr:
-    return not reduceOperation(e.expr)
+    return not reduceExpr(e.expr)
 
   if type(e) is AndExpr:
-    pass
+    return True if (reduceExpr(e.lhs) == True and reduceExpr(e.rhs) == True) else False
 
   if type(e) is OrExpr:
-    pass
+    eturn True if (reduceExpr(e.lhs) == True or reduceExpr(e.rhs) == True) else False
 
   assert False
