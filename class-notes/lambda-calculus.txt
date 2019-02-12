@@ -1,9 +1,16 @@
-e :: bool stuff
+e :: "bool stuff"
      x       variable
      λx.e1   abstraction
-     e1 e1   application
+     e1 e2   application
 
-land = λx.λy.x and y
-implies = λp.λg.((not p) or g)
+λ(p.q).(p and q)
 
-python sort(R, lambda x, y: x < y) => λx.λy.x < y
+S = scope (list of lambda's)
+resolve(e, S)
+resolve(x, S) = find x in S, backwards
+                x.ref = lambda     lambda <- ref(S)
+                                   x.ref = lambda
+resolve(lambda x.e, S) = resolve(e, S + [lambda x])
+                                    and lambda x in S
+resolve(e1 e2, S) = resolve(e1, S)
+                    resolve(e2, S)
