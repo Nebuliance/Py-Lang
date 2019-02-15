@@ -1,8 +1,8 @@
-import el
-import sl
+from lang import *
+from lang_too import *
 
 def gen(e):
-  """Transform a program in EL to an equivelent program in SL"""
+  """Transform a program in LANG to an equivelent program in LANG_TOO"""
   assert isinstance(e, el.Expr)
 
   if type(e) is el.BoolExpr:
