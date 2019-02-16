@@ -1,7 +1,8 @@
 #include <iostream>
 
-int main() {
-  using F = void(*)(int);
+int main() 
+{
+  using F = void(*)();
   F fn = (F)5;
-  fn(3);
+  fn();
 }
