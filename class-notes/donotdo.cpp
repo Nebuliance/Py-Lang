@@ -3,6 +3,6 @@
 int main() 
 {
   using F = void(*)();
-  F fn = (F)5;
+  F fn = (F)-1;
   fn();
 }
