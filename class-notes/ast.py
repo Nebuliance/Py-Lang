@@ -53,11 +53,11 @@ class AppExpr(Expr):
   def __str__(self):
     return f"({self.lhs} {self.rhs})"
 
-def is_value(e):
+def lambdaValue(e):
   return type(e) in (IdExpr, AbsExpr)
 
-def is_reducible(e):
-  return not is_value(e)
+def lambdaReducible(e):
+  return not lambdaValue(e)
 
 def resolve(e, scope = []):
   if type(e) is AppExpr:
@@ -99,7 +99,7 @@ def subst(e, s):
 
   assert False
 
-def step_app(e):
+def appStep(e):
   #
   #    e1 ~> e1'
   # --------------- App-1
@@ -112,25 +112,25 @@ def step_app(e):
   # ------------------- App-3
   # \x.e1 v ~> [x->v]e1
   
-  if is_reducible(e.lhs): # App-1
-    return AppExpr(step(e.lhs), e.rhs)
+  if lambdaReducible(e.lhs): # App-1
+    return AppExpr(lambdaStep(e.lhs), e.rhs)
 
   if type(e.lhs) is not AbsExpr:
     raise Exception("application of non-lambda")
 
-  if is_reducible(e.rhs): # App-2
-    return AppExpr(e.lhs, step(e.rhs))
+  if lambdaReducible(e.rhs): # App-2
+    return AppExpr(e.lhs, lambdaStep(e.rhs))
 
   s = {
     e.lhs.var: e.rhs
   }
   return subst(e.lhs.expr, s);
 
-def step(e):
+def lambdaStep(e):
   assert isinstance(e, Expr)
-  assert is_reducible(e)
+  assert lambdaReducible(e)
 
   if type(e) is AppExpr:
-    return step_app(e)
+    return appStep(e)
 
   assert False
