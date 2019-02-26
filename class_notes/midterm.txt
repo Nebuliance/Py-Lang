@@ -1,0 +1,54 @@
+what is a language? 
+  a set of strings
+
+what is abstract syntax and abstract syntax, what is difference?
+  concrete syntax is what you write, abstract syntax is what is meant
+
+what is abstract syntax tree?
+  data structure that represents syntatic form of strings and there relations
+
+what are denotational semantics?
+  mathematical objects that describe the meanings of expressions from the language
+
+  what are the downsides?
+    not a lot of information given which does not help implementation
+
+what is an abstract machine?
+  formal description of a language and how it works
+
+  what are the different parts?
+    set of states and transitions between states
+
+    two parts to every state?
+      code and data
+
+what are operational semantics?
+  define state transition diagram
+
+  small step semantics?
+    map from one expression to another
+
+    one benefit to small step semantics?
+      see how expressions are being evaluated
+
+  big step semantics?
+    map between expression and value it produces
+
+what is undefined behavior?
+  reached terminal state where machine cannot go further; stuck
+
+opt : expr -> expr
+  opt(T) = T
+  opt(F) = F
+  opt(e1 and e2) = opt(e1) and opt(e2)
+
+  opt(F and e1) = F
+  opt(e1 and F) = F
+  opt(T or e1) = T
+  opt(e1 or T) = T
+
+big step function idea
+    e   \\   v
+    T   \\   1
+    F   \\   0
+e1 \\ v1  e2 \\ v2

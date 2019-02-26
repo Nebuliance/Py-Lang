@@ -7,7 +7,7 @@ class Expr:
             e1 and e2
             e1 or e2
             x       -- variables
-            \\x.e1  -- abstractions
+            \x.e1  -- abstractions
             e1 e2   -- application
   """
   pass

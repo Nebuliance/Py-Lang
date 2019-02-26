@@ -1,0 +1,59 @@
+e := T / F
+     e1 and e2
+     e1 or e2
+
+     N
+     e1 + e2
+     e1 * e2
+
+     e1 == e2
+
+     \x.e
+     e1 e2
+     x
+
+e \\ v  Evaluate
+r + e : T   Typing
+
+var x : int
+
+/*
+  r + T : Bool
+  r + F : Bool
+
+  T \\ 1
+  F \\ 0
+*/
+
+r + e1 : T    r + e2 : T
+------------------------
+r + e1 == e2 : Bool
+
+/*
+  r + e1: Bool    r + e2 : Bool
+  -----------------------------
+  r + e1 and e2 : Bool
+
+  r + e1 \\ v1   r + e2 \\ v2
+  ---------------------------
+  r + e1 and e2 \\ v1 & v2
+*/
+
+\ represents 'lambda'
+r represents 'gamma'
+
+simply typed lambda calculus -> \n : int
+
+neg = \n : int.(0 - n)
+
+x : T + r
+----------
+r + x : T
+
+r, x : T + e1 : T2
+-------------------------
+r + \x : T1.e1 : T1 -> T2
+
+r + e1 : T1 -> T2    r + e2 : T1
+--------------------------------
+r + e1 e2 : T2

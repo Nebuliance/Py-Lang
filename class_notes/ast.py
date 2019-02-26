@@ -5,7 +5,7 @@ class Expr:
   defined as:
 
     e ::= x       -- variables
-          \\x.e1  -- abstractions
+          \x.e1  -- abstractions
           e1 e2   -- application
   """
   pass
