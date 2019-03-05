@@ -53,16 +53,16 @@ class VarDecl:
     return self.id
 
 class AbsExpr(Expr):
-  """Represents lambda abstractions of the form \\x.e1."""
+  """Represents lambda abstractions of the form \x.e1."""
   def __init__(self, var, e1):
     if type(var) is str:
       self.var = VarDecl(var)
     else:
       self.var = var
-    self.expr = e1
+      self.expr = e1
 
   def __str__(self):
-    return f"\\{self.var}.{self.expr}"
+    return f"\{self.var}.{self.expr}"
 
 class AppExpr(Expr):
   """Represents application."""
