@@ -55,9 +55,9 @@ def eval_not(e, store):
 
 def eval_cond(e, store):
   if evaluate(e.cond):
-    return evaluate(e.true);
+    return evaluate(e.true)
   else:
-    return evaluate(e.false);
+    return evaluate(e.false)
 
 def eval_id(e, store):
   # Evaluate an id-expression by finding it's stored value.
@@ -92,6 +92,10 @@ def eval_app(e, store):
   # Note that this does not handle recursion correctly because the 
   # store flat. 
   c = evaluate(e.lhs, store)
+
+  if type(c) is not Closure:
+    raise Exception("cannot apply a non-closure to an argument")
+
   v = evaluate(e.rhs, store)
 
   return evaluate(c.abs.expr, c.env + {c.abs.var: v})
@@ -105,6 +109,9 @@ def eval_lambda(e, store):
 
 def eval_call(e, store):
   c = evaluate(e.fn, store)
+
+  if type(c) is not Closure:
+    raise Exception("cannot apply a non-closure to an argument")
   
   # Evaluate arguments
   args = []
