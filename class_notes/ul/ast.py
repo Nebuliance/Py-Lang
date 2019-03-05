@@ -1,13 +1,14 @@
-class Expr:
-  """
-  Represents the set of expressions in the
-  pure (or untyped) lambda calculus. This is
-  defined as:
 
-    e ::= x       -- variables
-          \x.e1  -- abstractions
-          e1 e2   -- application
-  """
+class Expr:
+  # Represents the set of expressions in the
+  # pure (or untyped) lambda calculus. This is
+  # defined as:
+  # 
+  #   e ::= x                     -- variables
+  #         \\x.e1                -- abstractions
+  #         e1 e2                 -- application
+  #         \(x1, x2, ..., xn).e1 -- lambda expression
+  #         e0(e1, e2, ..., en)   -- call expression
   pass
 
 class IdExpr(Expr):
@@ -32,8 +33,7 @@ class VarDecl:
     return self.id
 
 class AbsExpr(Expr):
-  """Represents lambda abstractions of the
-  form \\x.e1."""
+  # Represents lambda abstractions of the form '\x.e1'.
   def __init__(self, var, e1):
     if type(var) is str:
       self.var = VarDecl(var)
@@ -45,7 +45,7 @@ class AbsExpr(Expr):
     return f"\\{self.var}.{self.expr}"
 
 class AppExpr(Expr):
-  """Represents application."""
+  # Represents applications of the form 'e1 e2'
   def __init__(self, lhs, rhs):
     self.lhs = lhs
     self.rhs = rhs
@@ -53,11 +53,34 @@ class AppExpr(Expr):
   def __str__(self):
     return f"({self.lhs} {self.rhs})"
 
-def lambdaValue(e):
-  return type(e) in (IdExpr, AbsExpr)
+class LambdaExpr(Expr)
+  # Represents multi-argument lambda abstractions.
+  # Note that '\(x, y, z).e' is syntactic sugar for
+  # '\x.\y.\z.e'.
+  def __init__(self, vars, e1):
+    self.vars = []
+    for v in vars:
+    if type(var) is str:
+      self.vars[] += [VarDecl(var)]
+    else:
+      self.vars += [var]
+    self.expr = e1
 
-def lambdaReducible(e):
-  return not lambdaValue(e)
+  def __str__(self):
+    return f"\\({",".join([str(v) for v in self.vars])}).{self.expr}"
+
+class CallExpr:
+  # Represents calls of multi-argument lambda 
+  # abstractions.
+  def __init__(self, fn, args):
+    self.fn = fn
+    self.args = args
+
+def is_value(e):
+  return type(e) in (IdExpr, AbsExpr, LambdaExpr)
+
+def is_reducible(e):
+  return not is_value(e)
 
 def resolve(e, scope = []):
   if type(e) is AppExpr:
@@ -99,38 +122,40 @@ def subst(e, s):
 
   assert False
 
-def appStep(e):
+def step_app(e):
   #
-  #    e1 ~> e1'
+  #     e1 ~> e1'
   # --------------- App-1
   # e1 e2 ~> e1' e2
   #
-  #       e2 ~> e2'
+  #      e2 ~> e2'
   # --------------------- App-2
   # \x.e1 e2 ~> \x.e1 e2'
   #
   # ------------------- App-3
   # \x.e1 v ~> [x->v]e1
   
-  if lambdaReducible(e.lhs): # App-1
-    return AppExpr(lambdaStep(e.lhs), e.rhs)
+  if is_reducible(e.lhs): # App-1
+    return AppExpr(step(e.lhs), e.rhs)
 
   if type(e.lhs) is not AbsExpr:
     raise Exception("application of non-lambda")
 
-  if lambdaReducible(e.rhs): # App-2
-    return AppExpr(e.lhs, lambdaStep(e.rhs))
+  if is_reducible(e.rhs): # App-2
+    return AppExpr(e.lhs, step(e.rhs))
 
   s = {
     e.lhs.var: e.rhs
   }
   return subst(e.lhs.expr, s);
 
-def lambdaStep(e):
+def step(e):
   assert isinstance(e, Expr)
-  assert lambdaReducible(e)
+  assert is_reducible(e)
 
   if type(e) is AppExpr:
-    return appStep(e)
+    return step_app(e)
 
   assert False
+
+

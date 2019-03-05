@@ -1,4 +1,4 @@
 from lang import *
-from bool_memebers import *
-from lambda_memebers import *
+from bm import *
+from lm import *
 

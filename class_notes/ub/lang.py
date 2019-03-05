@@ -1,3 +1,4 @@
+
 class Expr:
   """
   The language is defined by the following sets
@@ -164,3 +165,4 @@ def reduce(e):
   while is_reducible(e):
     e = step(e)
   return e
+
