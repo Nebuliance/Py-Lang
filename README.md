@@ -1,2 +1,2 @@
-# Theory-of-PLs
+# Theory-of-Programming-Languages
 Spring 2019
