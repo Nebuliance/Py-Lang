@@ -25,7 +25,7 @@ def check_bool(e):
   # b : Bool
   return boolType
 
-def check_int(e)
+def check_int(e):
   # -------- T-int
   # n : int
   return intType

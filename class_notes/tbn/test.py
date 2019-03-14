@@ -1,4 +1,6 @@
 from lang import *
+from check import *
+from reduce import *
 
 # e = not (true and not false)
 
