@@ -1,15 +1,18 @@
 class Expr:
-  """Defines the following language:
-
-      e ::= true
-            false
-            not e1
-            e1 and e2
-            e1 or e2
-            x       -- variables
-            \x.e1   -- abstractions
-            e1 e2   -- application
-  """
+  # Represents the set of expressions in the
+  # pure (or untyped) lambda calculus. This is
+  # defined as:
+  # 
+  #   e ::= b                     -- boolean literals (true, false)
+  #         e1 and e2             -- logical ands
+  #         e1 or e2              -- logical ors
+  #         not e1                -- logical nots
+  #         if e1 then e2 else e3 -- conditionals
+  #         x                     -- variables
+  #         \x.e1                 -- abstractions
+  #         e1 e2                 -- applications
+  #         \(x1, x2, ..., xn).e1 -- lambda expressions
+  #         e0(e1, e2, ..., en)   -- call expressions
   pass
   
 class BoolExpr(Expr):

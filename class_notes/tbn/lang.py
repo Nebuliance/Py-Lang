@@ -1,17 +1,3 @@
-class Type:
-  # Represents a type in a language.
-  #
-  # T ::= Bool | Int
-  pass
-
-class BoolType(Type):
-  # Represents the type 'Bool'
-  pass
-
-class IntType(Type):
-  # Represents the type 'Int'
-  pass
-
 class Expr:
   # Represents the set of expressions in the
   # pure (or untyped) lambda calculus. This is
