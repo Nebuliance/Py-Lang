@@ -1,22 +1,26 @@
+
 from lang import *
-from check import *
-from reduce import *
 
-# e = not (true and not false)
+# e = (3 + 5) == (11 - 3)
+e = \
+  EqExpr(
+    AddExpr(3, 5),
+    SubExpr(11, 5)
+  )
 
-e0 = \
-  NotExpr(
-    AndExpr(
-      BoolExpr(True),
-      NotExpr(BoolExpr(False))))
+print(e)
+print(check(e))
+# reduce(e)
+print(evaluate(e))
 
-print(e0)
-e = step(e0)
-print(e) # one step reduction of e
-e = step(e)
-print(e) # two step reduction of e
-e = step(e)
-print(e) # three step reduction
+try:
+  e2 = \
+    EqExpr(
+      AddExpr(3, 5),
+      SubExpr(11, True) # nope
+    )
+  print(e2)
+  check(e2)
+except Exception as err:
+  print(f"error: {err}")
 
-r = reduce(e0)
-print(r)

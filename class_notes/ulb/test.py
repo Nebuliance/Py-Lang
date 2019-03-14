@@ -1,3 +1,4 @@
+
 from lang import *
 import copy
 
@@ -14,7 +15,27 @@ table = [
   resolve(CallExpr(clone(impl), [False, False]))
 ]
 
-for e in table:
-  print(e)
-  print(evaluate(e))
-  # reduce(e)
+# for e in table:
+#   print(e)
+#   print(evaluate(e))
+#   # reduce(e)
+
+## Curry test
+
+# impl (true, _)
+e = resolve(CallExpr(clone(impl), [True, PlaceholderExpr()]))
+print(e)
+e = curry(e)
+print(e)
+
+print("----------")
+c = CallExpr(e, [False])
+print(c)
+reduce(c)
+
+
+
+
+
+
+

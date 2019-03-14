@@ -1,3 +1,4 @@
+
 class Expr:
   # Represents the set of expressions in the
   # pure (or untyped) lambda calculus. This is
@@ -52,15 +53,15 @@ class AppExpr(Expr):
   def __str__(self):
     return f"({self.lhs} {self.rhs})"
 
-class LambdaExpr(Expr):
+class LambdaExpr(Expr)
   # Represents multi-argument lambda abstractions.
   # Note that '\(x, y, z).e' is syntactic sugar for
   # '\x.\y.\z.e'.
   def __init__(self, vars, e1):
     self.vars = []
     for v in vars:
-      if type(var) is str:
-        self.vars[] += [VarDecl(var)]
+    if type(var) is str:
+      self.vars[] += [VarDecl(var)]
     else:
       self.vars += [var]
     self.expr = e1
@@ -146,7 +147,7 @@ def step_app(e):
   s = {
     e.lhs.var: e.rhs
   }
-  return subst(e.lhs.expr, s)
+  return subst(e.lhs.expr, s);
 
 def step(e):
   assert isinstance(e, Expr)

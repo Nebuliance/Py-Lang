@@ -1,3 +1,4 @@
+
 class Type:
   # Represents a type in the language.
   #
@@ -32,13 +33,13 @@ class Expr:
   #         e1 % e2               -- remainder of division
   #         -e1                   -- negation
   #         e1 == e2              -- equality
-  #         e1 == e2              -- distinction
+  #         e1 != e2              -- distinction
   #         e1 < e2               -- less than
   #         e1 > e2               -- greater than
   #         e1 <= e2              -- less than or equal to
   #         e1 >= e2              -- greater than or equal to
-  def __init__(Expr):
-    # The type of the expression. This is computed
+  def __init__(self):
+    # The type of the expression. This is computed 
     # by the check() function.
     self.type = None
 
@@ -46,6 +47,7 @@ class Expr:
 
 class BoolExpr(Expr):
   def __init__(self, val):
+    Expr.__init__(self)
     self.value = val
 
   def __str__(self):
@@ -53,6 +55,7 @@ class BoolExpr(Expr):
 
 class AndExpr(Expr):
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -61,6 +64,7 @@ class AndExpr(Expr):
 
 class OrExpr(Expr):
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -69,6 +73,7 @@ class OrExpr(Expr):
 
 class NotExpr(Expr):
   def __init__(self, e):
+    Expr.__init__(self)
     self.expr = expr(e)
 
   def __str__(self):
@@ -77,6 +82,7 @@ class NotExpr(Expr):
 class IfExpr(Expr):
   # Represents expressions of the form `if e1 then e2 else e3`.
   def __init__(self, e1, e2, e3):
+    Expr.__init__(self)
     self.cond = express(e1)
     self.true = express(e2)
     self.false = express(e3)
@@ -89,14 +95,16 @@ class IfExpr(Expr):
 class IntExpr(Expr):
   # Represents numeric literals.
   def __init__(self, val):
+    Expr.__init__(self)
     self.value = val
 
   def __str__(self):
-    return str(self.val)
+    return str(self.value)
 
 class AddExpr(Expr):
   # Represents expressions of the form `e1 + e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -106,6 +114,7 @@ class AddExpr(Expr):
 class SubExpr(Expr):
   # Represents expressions of the form `e1 + e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -115,6 +124,7 @@ class SubExpr(Expr):
 class MulExpr(Expr):
   # Represents expressions of the form `e1 - e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -124,6 +134,7 @@ class MulExpr(Expr):
 class DivExpr(Expr):
   # Represents expressions of the form `e1 / e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -133,6 +144,7 @@ class DivExpr(Expr):
 class RemExpr(Expr):
   # Represents expressions of the form `e1 % e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -142,6 +154,7 @@ class RemExpr(Expr):
 class NegExpr(Expr):
   # Represents expressions of the form `-e1`.
   def __init__(self, e1):
+    Expr.__init__(self)
     self.expr = expr(e1)
 
   def __str__(self):
@@ -152,6 +165,7 @@ class NegExpr(Expr):
 class EqExpr(Expr):
   # Represents expressions of the form `e1 == e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -161,6 +175,7 @@ class EqExpr(Expr):
 class NeExpr(Expr):
   # Represents expressions of the form `e1 != e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -170,6 +185,7 @@ class NeExpr(Expr):
 class LtExpr(Expr):
   # Represents expressions of the form `e1 < e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -179,6 +195,7 @@ class LtExpr(Expr):
 class GtExpr(Expr):
   # Represents expressions of the form `e1 > e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -188,6 +205,7 @@ class GtExpr(Expr):
 class LeExpr(Expr):
   # Represents expressions of the form `e1 <= e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -197,6 +215,7 @@ class LeExpr(Expr):
 class GeExpr(Expr):
   # Represents expressions of the form `e1 >= e2`.
   def __init__(self, lhs, rhs):
+    Expr.__init__(self)
     self.lhs = expr(lhs)
     self.rhs = expr(rhs)
 
@@ -209,7 +228,12 @@ def expr(x):
   # used to make simplify the writing expressions.
   if type(x) is bool:
     return BoolExpr(x)
+  if type(x) is int:
+    return IntExpr(x)
   if type(x) is str:
     return IdExpr(x)
   return x
 
+from reduce import reduce
+from check import check
+from evaluate import evaluate

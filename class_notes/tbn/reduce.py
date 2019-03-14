@@ -29,7 +29,7 @@ def step_unary(e, Node, op):
   if is_reducible(e.expr):
     return Node(step(e.expr))
 
-  return expr(op(e.expr.val))
+  return expr(op(e.expr.value))
 
 def step_binary(e, Node, op):
   # Compute the next step of a binary expression.
@@ -54,7 +54,7 @@ def step_binary(e, Node, op):
     return Node(e.lhs, step(e.rhs))
 
   # Combine the results.
-  return expr(op(e.lhs.val, e.rhs.val))
+  return expr(op(e.lhs.value, e.rhs.value))
 
 def step_and(e):
   return step_binary(e, AndExpr, lambda x, y: x and y)
@@ -145,34 +145,34 @@ def step(e):
     return step_sub(e)
 
   if type(e) is MulExpr:
-    return step_sub(e)
+    return step_mul(e)
 
   if type(e) is DivExpr:
-    return step_sub(e)
+    return step_div(e)
 
   if type(e) is RemExpr:
-    return step_sub(e)
+    return step_rem(e)
 
   if type(e) is NegExpr:
-    return step_sub(e)
+    return step_neg(e)
 
   if type(e) is EqExpr:
-    return step_sub(e)
+    return step_eq(e)
 
   if type(e) is NeExpr:
-    return step_sub(e)
+    return step_ne(e)
 
   if type(e) is LtExpr:
-    return step_sub(e)
+    return step_lt(e)
 
   if type(e) is GtExpr:
-    return step_sub(e)
+    return step_gt(e)
 
   if type(e) is LeExpr:
-    return step_sub(e)
+    return step_le(e)
 
   if type(e) is GeExpr:
-    return step_sub(e)
+    return step_ge(e)
 
   assert False
 

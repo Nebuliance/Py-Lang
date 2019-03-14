@@ -1,3 +1,4 @@
+
 class Type:
   # Represents a type in the language.
   #
@@ -44,17 +45,17 @@ class Expr:
   # pure (or untyped) lambda calculus. This is
   # defined as:
   # 
-  #   e ::= b                              -- boolean literals (true, false)
-  #         e1 and e2                      -- logical ands
-  #         e1 or e2                       -- logical ors
-  #         not e1                         -- logical nots
-  #         if e1 then e2 else e3          -- conditionals
-  #         x                              -- variables
-  #         \x:T.e1                        -- abstractions
-  #         e1 e2                          -- applications
+  #   e ::= b                     -- boolean literals (true, false)
+  #         e1 and e2             -- logical ands
+  #         e1 or e2              -- logical ors
+  #         not e1                -- logical nots
+  #         if e1 then e2 else e3 -- conditionals
+  #         x                     -- variables
+  #         \x:T.e1               -- abstractions
+  #         e1 e2                 -- applications
   #         \(x1:T1, x2:T2, ..., xn:Tn).e1 -- lambda expressions
-  #         e0(e1, e2, ..., en)            -- call expressions
-  #         _                              -- Placeholders
+  #         e0(e1, e2, ..., en)   -- call expressions
+  #         _                     -- Placeholders
   pass
 
 class BoolExpr(Expr):

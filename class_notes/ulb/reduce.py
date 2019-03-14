@@ -8,6 +8,14 @@ from lang import *
 # performs a single transition, and reduce, which performs
 # reduces an expression to a value.
 
+def is_value(e):
+  # Returns true if e denotes a value.
+  return type(e) in (BoolExpr, AbsExpr, LambdaExpr)
+
+def is_reducible(e):
+  # Returns true if e can be reduced.
+  return not is_value(e)
+
 def step_and(e):
   # Compute the next step of an and-expression.
   #
@@ -58,7 +66,7 @@ def step_not(e):
   # ----------------- Not-1
   # not e1 ~> not e1'
   #
-  # ----------------- Not-1
+  # -------------------- Not-1
   # not v1 ~> [not `v1`]
   if is_reducible(e.expr):
     return NotExpr(step(e.expr))
@@ -99,6 +107,8 @@ def step_app(e):
   #
   # ------------------- App-3
   # \x.e1 v ~> [x->v]e1
+  #
+  # This implements call by value.
   
   if is_reducible(e.lhs): # App-1
     return AppExpr(step(e.lhs), e.rhs)
