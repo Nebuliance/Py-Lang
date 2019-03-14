@@ -46,11 +46,11 @@ def step_binary(e, Node, op):
   #   v1 op e2 ~> v1 op e2'
   
   # LHS first
-  if is_reducible(e.lhs)
+  if is_reducible(e.lhs):
     return Node(step(e.lhs), e.rhs)
 
   # RHS next
-  if is_reducible(e.rhs)
+  if is_reducible(e.rhs):
     return Node(e.lhs, step(e.rhs))
 
   # Combine the results.

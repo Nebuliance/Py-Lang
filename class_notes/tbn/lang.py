@@ -1,3 +1,19 @@
+class Type:
+  # Represents a type in the language.
+  #
+  # T ::= Bool | Int
+  pass
+
+class BoolType(Type):
+  # Represents the type 'Bool'
+  def __str__(self):
+    return "Bool"
+
+class IntType(Type):
+  # Represents the type 'Int'
+  def __str__(self):
+    return "Int"
+
 class Expr:
   # Represents the set of expressions in the
   # pure (or untyped) lambda calculus. This is
