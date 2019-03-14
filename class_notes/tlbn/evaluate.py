@@ -55,9 +55,9 @@ def eval_not(e, store):
 
 def eval_cond(e, store):
   if evaluate(e.cond):
-    return evaluate(e.true);
+    return evaluate(e.true)
   else:
-    return evaluate(e.false);
+    return evaluate(e.false)
 
 def eval_id(e, store):
   # Evaluate an id-expression by finding it's stored value.

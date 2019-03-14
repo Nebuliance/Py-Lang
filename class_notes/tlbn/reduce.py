@@ -122,7 +122,7 @@ def step_app(e):
   s = {
     e.lhs.var: e.rhs
   }
-  return subst(e.lhs.expr, s);
+  return subst(e.lhs.expr, s)
 
 def step_call(e):
   # Call a lambda function with arguments.
@@ -161,7 +161,7 @@ def step_call(e):
     s[e.fn.vars[i]] = e.args[i]
 
   # Substitute through the definition.
-  return subst(e.fn.expr, s);
+  return subst(e.fn.expr, s)
 
 
 def step(e):
