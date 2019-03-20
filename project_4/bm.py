@@ -1,124 +1,61 @@
 from lang import *
+from im import *
+from reduce import *
+from evaluate import *
+from step import *
+from check import *
+from expression import *
 
-def size(e):
-  assert isinstance(e, Expr)
+def boolEval(e):
+  return e.value
 
-  if type(e) is BoolExpr:
-    return 1
+def andEval(e):
+  return evaluate(e.lhs) and evaluate(e.rhs)
 
-  if type(e) is NotExpr:
-    return 1 + size(e.expr)
+def orEval(e):
+  return evaluate(e.lhs) or evaluate(e.rhs)
 
-  if type(e) is BinaryExpr:
-    return 1 + size(e.lhs) + size(e.rhs)
+def notEval(e):
+  return not evaluate(e.expr)
 
-  assert False
+def ifEval(e):
+  if evaluate(e.cond):
+    return evaluate(e.true)
+  else:
+    return evaluate(e.false)
 
-def height(e):
-  assert isinstance(e, Expr)
 
-  if type(e) is BoolExpr:
-    return 0
 
-  if type(e) is NotExpr:
-    return 1 + height(e.expr)
-
-  if type(e) is BinaryExpr:
-    return 1 + (height(e.lhs) and height(e.rhs))
-
-  assert False
-
-def same(e1, e2):
-  assert isinstance(e1, Expr)
-  assert isinstance(e2, Expr)
-
-  if type(e1) is not type(e2):
-    return False
-
-  if type(e1) is BoolExpr:
-    return e1.value == e2.value
-
-  if type(e1) is NotExpr:
-    return same(e1.expr, e2.expr)
-
-  if type(e1) is BinaryExpr:
-    return same(e1.lhs, e2.lhs) and same(e1.rhs, e2.rhs)
-
-  assert False
-
-def value(e):
-  assert isinstance(e, Expr)
-
-  if type(e) is BoolExpr:
-    return e.value
-
-  if type(e) is NotExpr:
-    return not value(e.expr)
-
-  if type(e) is AndExpr:
-    return value(e.lhs) and value(e.rhs)
-
-  if type(e) is OrExpr:
-    return value(e.lhs) or value(e.rhs)
-
-  assert False
-
-def boolValue(e):
-  return type(e) is BoolExpr
-
-def boolReducible(e):
-  return not boolValue(e)
-
-def notStep(e):
-  if boolValue(e.expr):
-    return BoolExpr(not e.expr.value)
-
-  return NotExpr(step(e.expr))
-
-  assert False
 
 def andStep(e):
-  if boolValue(e.lhs) and boolValue(e.rhs):
-    return BoolExpr(e.lhs.value and e.rhs.value)
-
-  if boolReducible(e.lhs):
-    return AndExpr(step(e.lhs), e.rhs)
-
-  if boolReducible(e.rhs):
-    return AndExpr(e.lhs, step(e.rhs))
-
-  assert False
+  return binaryStep(e, AndExpr, lambda x, y: x and y)
 
 def orStep(e):
-  if boolValue(e.lhs) and boolValue(e.rhs):
-    return BoolExpr(e.lhs.value or e.rhs.value)
+  return binaryStep(e, OrExpr, lambda x, y: x or y)
 
-  if boolReducible(e.lhs):
-    return OrExpr(step(e.lhs), e.rhs)
+def notStep(e):
+  return unaryStep(e, NotExpr, lambda x: not x)
 
-  if boolReducible(e.rhs):
-    return OrExpr(e.lhs, step(e.rhs))
+def ifStep(e):
+  if isReducible(e.cond):
+    return NotExpr(step(e.cond), e.true, e.false)
 
-  assert False
+  if e.cond.val:
+    return e.true
+  else:
+    return e.false
 
-def boolStep(e):
-  assert boolReducible(e)
 
-  if type(e) is NotExpr:
-    return notStep(e)
 
-  if type(e) is AndExpr:
-    return andStep(e)
 
-  if type(e) is OrExpr:
-    return orStep(e)
+def boolCheck(e):
+  return boolType
 
-  assert False
+def intCheck(e):
+  return intType
 
-def reduceExpr(e):
-  while boolReducible(e):
-    e = step(e)
+def andCheck(e):
+  if isBool(e1) and isBool(e2):
+    return boolType
 
-  return e
-
-  assert False
+  raise Exception("invalid operands to 'and'")

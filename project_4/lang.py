@@ -1,88 +1,208 @@
+class Type:
+  pass
+
+class BoolType(Type):
+  def __str__(self):
+    return "Bool"
+
+class IntType(Type):
+  def __str__(self):
+    return "Int"
+
+
+
+
 class Expr:
-  # Represents the set of expressions in the
-  # pure (or untyped) lambda calculus. This is
-  # defined as:
-  #
-  #   e ::= b                     -- boolean literals (true and false)
-  #         e1 and e2             -- logical and
-  #         e1 or e2              -- logical or
-  #         not e1                -- logical negation
-  #         if e1 then e2 else e3 -- conditionals
-  #         n                     -- integer literals
-  #         e1 + e2               -- addition
-  #         e1 - e2               -- subtraction
-  #         e1 * e2               -- multiplication
-  #         e1 / e2               -- quotient of division
-  #         e1 % e2               -- remainder of division
-  #         -e1                   -- negation
-  #         e1 == e2              -- equality
-  #         e1 != e2              -- distinction
-  #         e1 < e2               -- less than
-  #         e1 > e2               -- greater than
-  #         e1 <= e2              -- less than or equal to
-  #         e1 >= e2              -- greater than or equal to
+  """ 
+      e ::= b                     -- boolean literals (true and false)
+            e1 and e2             -- logical and
+            e1 or e2              -- logical or
+            not e1                -- logical negation
+            if e1 then e2 else e3 -- conditionals
+            n                     -- integer literals
+            e1 + e2               -- addition
+            e1 - e2               -- subtraction
+            e1 * e2               -- multiplication
+            e1 / e2               -- quotient of division
+            e1 % e2               -- remainder of division
+            -e1                   -- negation
+            e1 == e2              -- equality
+            e1 != e2              -- distinction
+            e1 < e2               -- less than
+            e1 > e2               -- greater than
+            e1 <= e2              -- less than or equal to
+            e1 >= e2              -- greater than or equal to
+  """
   def __init__(self):
-    # The type of the expression. This is computed 
-    # by the check() function.
     self.type = None
-  
+
+
+
+
 class BoolExpr(Expr):
-  """Represents the strings 'true' and 'false'."""
   def __init__(self, val):
-    assert val == True or val == False
+    Expr.__init__(self)
     self.value = val
 
-class NotExpr(Expr):
-  """Represents strings of the form 'not e'."""
-  def __init__(self, e):
-    self.expr = e
-
-class AndExpr(BinaryExpr):
-  """Represents strings of the form 'e1 and e2'."""
-  def __init__(self, e1, e2):
-    self.lhs = e1
-    self.rhs = e2
-
-class OrExpr(BinaryExpr):
-  """Represents strings of the form 'e1 or e2'."""
-  def __init__(self, e1, e2):
-    self.lhs = e1
-    self.rhs = e2
-
-class IdExpr(Expr):
-  """Represents identifiers that refer to variables."""
-  def __init__(self, id):
-    self.id = id
-    self.ref = None
-
   def __str__(self):
-    return self.id
+    return "true" if self.value else "false"
 
-class VarDecl:
-  """Represents the declaration of a variable."""
-  def __init__(self, id):
-    self.id = id
-
-  def __str__(self):
-    return self.id
-
-class AbsExpr(Expr):
-  """Represents lambda abstractions of the form \x.e1."""
-  def __init__(self, var, e1):
-    if type(var) is str:
-      self.var = VarDecl(var)
-    else:
-      self.var = var
-      self.expr = e1
-
-  def __str__(self):
-    return f"\{self.var}.{self.expr}"
-
-class AppExpr(Expr):
-  """Represents application."""
+class AndExpr(Expr):
   def __init__(self, lhs, rhs):
-    self.lhs = lhs
-    self.rhs = rhs
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
 
   def __str__(self):
-    return f"({self.lhs}.{self.rhs})"
+    return f"({self.lhs} and {self.rhs})"
+
+class OrExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} or {self.rhs})"
+
+class NotExpr(Expr):
+  def __init__(self, e):
+    Expr.__init__(self)
+    self.expr = expr(e)
+
+  def __str__(self):
+    return f"(not {self.expr})"
+
+class IfExpr(Expr):
+  def __init__(self, e1, e2, e3):
+    Expr.__init__(self)
+    self.cond = express(e1)
+    self.true = express(e2)
+    self.false = express(e3)
+
+  def __str__(self):
+    return f"(if {self.cond} then {self.true} else {self.false})"
+
+
+
+
+class IntExpr(Expr):
+  def __init__(self, val):
+    Expr.__init__(self)
+    self.value = val
+
+  def __str__(self):
+    return str(self.value)
+
+class AddExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} + {self.rhs})"
+
+class SubExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} + {self.rhs})"
+
+class MulExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} - {self.rhs})"
+
+class DivExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} / {self.rhs})"
+
+class RemExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} % {self.rhs})"
+
+class NegExpr(Expr):
+  def __init__(self, e1):
+    Expr.__init__(self)
+    self.expr = expr(e1)
+
+  def __str__(self):
+    return f"(-{self.expr})"
+
+
+
+
+class EqExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} == {self.rhs})"
+
+class NeExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} != {self.rhs})"
+
+
+
+
+class LtExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} < {self.rhs})"
+
+class GtExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} > {self.rhs})"
+
+class LeExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} <= {self.rhs})"
+
+class GeExpr(Expr):
+  def __init__(self, lhs, rhs):
+    Expr.__init__(self)
+    self.lhs = expr(lhs)
+    self.rhs = expr(rhs)
+
+  def __str__(self):
+    return f"({self.lhs} >= {self.rhs})"
