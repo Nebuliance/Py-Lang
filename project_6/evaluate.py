@@ -1,66 +1,29 @@
-from lang import *
-from bm import *
-from im import *
-from reduce import *
-from step import *
-from check import *
-from expression import *
+from eval import *
 
-def evaluate(e):
-  assert isinstance(e, Expr)
-
+def evaluate(e, store = {}):
   if type(e) is BoolExpr:
-    return boolEval(e)
+    return eval_bool(e, store)
 
   if type(e) is AndExpr:
-    return andEval(e)
+    return eval_and(e, store)
 
   if type(e) is OrExpr:
-    return orEval(e)
+    return eval_or(e, store)
 
   if type(e) is NotExpr:
-    return notEval(e)
+    return eval_not(e, store)
 
-  if type(e) is IfExpr:
-    return ifEval(e)
+  if type(e) is IdExpr:
+    return eval_id(e, store)
 
-  if type(e) is IntExpr:
-    return intEval(e)
+  if type(e) is AbsExpr:
+    return eval_abs(e, store)
 
-  if type(e) is AddExpr:
-    return addEval(e)
+  if type(e) is AppExpr:
+    return eval_app(e, store)
 
-  if type(e) is SubExpr:
-    return subEval(e)
+  if type(e) is LambdaExpr:
+    return eval_lambda(e, store)
 
-  if type(e) is MulExpr:
-    return mulEval(e)
-
-  if type(e) is DivExpr:
-    return divEval(e)
-
-  if type(e) is RemExpr:
-    return remEval(e)
-
-  if type(e) is NegExpr:
-    return negEval(e)
-
-  if type(e) is EqExpr:
-    return eqEval(e)
-
-  if type(e) is NeExpr:
-    return neEval(e)
-
-  if type(e) is LtExpr:
-    return ltEval(e)
-
-  if type(e) is GtExpr:
-    return gtEval(e)
-
-  if type(e) is LeExpr:
-    return leEval(e)
-
-  if type(e) is GeExpr:
-    return geEval(e)
-
-  assert False
+  if type(e) is CallExpr:
+    return eval_call(e, store)

@@ -1,20 +1,13 @@
-from lang import *
-from bm import *
-from im import *
-from evaluate import *
 from step import *
-from check import *
-from expression import *
 
-def isValue(e):
-  return type(e) in (BoolExpr, IntExpr)
+def is_value(e):
+  return type(e) in (BoolExpr, AbsExpr, LambdaExpr)
 
-def isReducible(e):
-  return not isValue(e)
+def is_reducible(e):
+  return not is_value(e)
 
 def reduce(e):
-  while not isValue(e):
+  while not is_value(e):
     e = step(e)
     print(e)
-
   return e

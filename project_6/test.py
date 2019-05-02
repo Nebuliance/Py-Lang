@@ -1,15 +1,15 @@
 from lang import *
+from classes import *
 
-e = EqExpr(AddExpr(3, 5), SubExpr(11, 5))
+import copy
 
-print(e)
-print(check(e))
-print(evaluate(e))
+clone = copy.deepcopy
 
-try:
-  e2 = EqExpr(AddExpr(3, 5), SubExpr(11, True))
-  print(e2)
-  check(e2)
-except Exception as err:
-  print(f"error: {err}")
+impl = LambdaExpr([VarDecl("p", boolType), VarDecl("q", boolType)], OrExpr(NotExpr("p"), "q"))
 
+table = [
+  resolve(CallExpr(clone(impl), [True, True])),
+  resolve(CallExpr(clone(impl), [True, False])),
+  resolve(CallExpr(clone(impl), [False, True])),
+  resolve(CallExpr(clone(impl), [False, False]))
+]

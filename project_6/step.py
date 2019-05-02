@@ -1,76 +1,91 @@
 from lang import *
-from bm import *
-from im import *
-from reduce import *
-from evaluate import *
-from check import *
-from expression import *
+from classes import *
 
-def unaryStep(e, Node, op):
-  if isReducible(e.expr):
-    return Node(step(e.expr))
+def step_and(e):
+  if is_reducible(e.lhs):
+    return AndExpr(step(e.lhs), e.rhs)
 
-  return expr(op(e.expr.value))
+  if is_reducible(e.rhs):
+    return AndExpr(e.lhs, step(e.rhs))
 
-def binaryStep(e, Node, op):
-  if isReducible(e.lhs):
-    return Node(step(e.lhs), e.rhs)
+  return BoolExpr(e.lhs.val and e.rhs.val)
 
-  if isReducible(e.rhs):
-    return Node(e.lhs, step(e.rhs))
+def step_or(e):
+  if is_reducible(e.lhs):
+    return OrExpr(step(e.lhs), e.rhs)
 
-  return expr(op(e.lhs.value, e.rhs.value))
+  if is_reducible(e.rhs):
+    return OrExpr(e.lhs, step(e.rhs))
+
+  return BoolExpr(e.lhs.val or e.rhs.val)
+
+def step_not(e):
+  if is_reducible(e.expr):
+    return NotExpr(step(e.expr))
+
+  return BoolExpr(not e.expr.val)
+
+def step_if(e):
+  if is_reducible(e.cond):
+    return NotExpr(step(e.cond), e.true, e.false)
+
+  if e.cond.val:
+    return e.true
+  else:
+    return e.false
+
+def step_app(e):
+  if is_reducible(e.lhs):
+    return AppExpr(step(e.lhs), e.rhs)
+
+  if type(e.lhs) is not AbsExpr:
+    raise Exception("app of non-lambda")
+
+  if is_reducible(e.rhs):
+    return AppExpr(e.lhs, step(e.rhs))
+
+  s = {e.lhs.var: e.rhs}
+  return subst(e.lhs.expr, s)
+
+def step_call(e):
+  if is_reducible(e.fn):
+    return CallExpr(step(e.fn), e.args)
+
+  if len(e.args) < len(e.fn.vars):
+    raise Exception("too few arguments")
+  if len(e.args) > len(e.fn.vars):
+    raise Exception("too many arguments")
+
+  for i in range(len(e.args)):
+    if is_reducible(e.args[i]):
+      return CallExpr(e.fn, e.args[:i] + [step(e.args[i])] + e.args[i+1:])
+
+  s = {}
+  for i in range(len(e.args)):
+    s[e.fn.vars[i]] = e.args[i]
+
+  return subst(e.fn.expr, s)
 
 def step(e):
   assert isinstance(e, Expr)
-  assert isReducible(e)
+  assert is_reducible(e)
 
   if type(e) is AndExpr:
-    return andStep(e)
+    return step_and(e)
 
   if type(e) is OrExpr:
-    return orStep(e)
+    return step_or(e)
 
   if type(e) is NotExpr:
-    return notStep(e)
+    return step_not(e)
 
   if type(e) is IfExpr:
-    return ifStep(e)
+    return step_if(e)
 
-  if type(e) is AddExpr:
-    return addStep(e)
+  if type(e) is AppExpr:
+    return step_app(e)
 
-  if type(e) is SubExpr:
-    return subStep(e)
-
-  if type(e) is MulExpr:
-    return mulStep(e)
-
-  if type(e) is DivExpr:
-    return divStep(e)
-
-  if type(e) is RemExpr:
-    return remStep(e)
-
-  if type(e) is NegExpr:
-    return neStep(e)
-
-  if type(e) is EqExpr:
-    return eqStep(e)
-
-  if type(e) is NeExpr:
-    return neStep(e)
-
-  if type(e) is LtExpr:
-    return ltStep(e)
-
-  if type(e) is GtExpr:
-    return gtStep(e)
-
-  if type(e) is LeExpr:
-    return leStep(e)
-
-  if type(e) is GeExpr:
-    return geStep(e)
+  if type(e) is CallExpr:
+    return step_call(e)
 
   assert False
