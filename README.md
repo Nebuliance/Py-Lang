@@ -2,37 +2,16 @@
 Spring 2019
 
 ## Final
-* what is a type? 
-    a set of values with operations that can performed on them
+* what is a type and why are they important? a set of values with operations that can performed on them and they are important so that the wrong operation cannot be performed on the type
 
-    - why are types important?
-        so the wrong operation cannot be performed on the type
+* what is a tuple and the operations can be performed on them? product of types and can project members from them
 
-* what is a tuple?
-    product of types
+* what is a record and the operations that can be performed on them? tuple with named fields and operations are the same as tuple
 
-    - operations on tuple?
-        project members from them
+* what is a variant? represents a type that can be a set of different alternatives
 
-* what is a record?
-    tuple with named fields
+* what is a reference and the operations that can be performed on them? a location and operations are load and store
 
-    - operations on records?
-        same as tuple
+* three ways to create an object? declare, dynamic allocation, system
 
-* what is a variant?
-    represents a type that can be a set of different alternatives
-
-    - operations on variants?
-
-* what is a reference?
-    a location
-
-    - operation on references?
-        load and store
-
-    - 3 ways to create an object
-        declare, dynamic allocation, system
-
-* what is subtyping?
-    reuse values in another context
+* what is subtyping? reuse values in another context
