@@ -2,7 +2,7 @@
 Spring 2019
 
 ## Final
-* what is a type and why are they important? a set of values with operations that can performed on them and they are important so that the wrong operation cannot be performed on the type
+* what is a type and why are they important? a set of values with operations that can be performed on them and they are important so that the wrong operation cannot be performed on the type
 
 * what is a tuple and the operations can be performed on them? product of types and can project members from them
 
