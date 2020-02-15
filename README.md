@@ -1,2 +1,2 @@
 # Py-Lang
-Custom language built on top of python for a class I took
+Small language built with python for lambda calculus
